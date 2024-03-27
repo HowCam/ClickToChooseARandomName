@@ -22,8 +22,8 @@ class FloatingWindow:
 
         self.label.bind("<Button-1>", self.update_name)  # 点击窗口更新姓名
         self.master.bind("<Down>", self.update_name)     # 按下方向下键更新姓名
-        self.master.bind("<Space>", self.update_name)    #按下空格键更新姓名
-        self.master.bind("<Enter>", self.update_name)    #按下回车键更新姓名
+        self.master.bind("<space>", self.update_name)    #按下空格键更新姓名
+        self.master.bind("<Return>", self.update_name)    #按下回车键更新姓名
 
     def load_names_from_excel(self):
         self.names = []
