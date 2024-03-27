@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['\\\\vmware-host\\Shared Folders\\Mac 上的 howcam\\Desktop\\ClickToChooseAName\\main.py'],
+    ['main.py'],
     pathex=[],
     binaries=[],
     datas=[],
