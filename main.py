@@ -27,6 +27,7 @@ class FloatingWindow:
         self.name_label.bind("<Button-1>", self.update_name)  # 点击窗口更新姓名
         self.master.bind("<space>", self.update_name)    #按下空格键更新姓名
         self.master.bind("<Return>", self.update_name)    #按下回车键更新姓名
+        self.master.bind("<Down>", self.update_name)    #按下方向下键更新姓名
 
         # 添加全局键盘监听事件
         self.shift_pressed = False
