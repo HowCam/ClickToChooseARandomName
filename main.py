@@ -1,29 +1,32 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 import random
 import openpyxl
+import keyboard
 
 class FloatingWindow:
     def __init__(self, master):
         self.master = master
         master.title("点名器")   # 设置窗口标题
-        master.attributes("-topmost", True)  # 窗口保持置顶
-
-        # 设置窗口图标
-        icon = Image.open("icon.png")  # png文件路径
-        master.iconphoto(True, ImageTk.PhotoImage(icon))
+        master.geometry("650x300+100+100")  # 设置窗口大小和位置
 
         self.load_names_from_excel()
 
-        self.label = tk.Label(master, font=("楷体", 120), fg="#005f35")  #设定字体样式
-        self.label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)  # 将标签放置在窗口中央
+        self.name_label = tk.Label(master, font=("楷体", 120), fg="#005f35")  #姓名标签
+        self.name_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)  # 将姓名标签放置在窗口中央
 
         self.update_name()
 
-        self.label.bind("<Button-1>", self.update_name)  # 点击窗口更新姓名
-        self.master.bind("<Down>", self.update_name)     # 按下方向下键更新姓名
+        self.name_label.bind("<Button-1>", self.update_name)  # 点击窗口更新姓名
         self.master.bind("<space>", self.update_name)    #按下空格键更新姓名
         self.master.bind("<Return>", self.update_name)    #按下回车键更新姓名
+
+        # 添加全局键盘监听事件
+        self.shift_pressed = False
+        keyboard.on_press_key("shift", self.toggle_window)
+
+        # 添加提示文本
+        self.tip_label = tk.Label(master, text="按下 Shift 键隐藏/显示窗口", font=("仿宋", 12), fg="gray")
+        self.tip_label.place(relx=1.0, rely=1.0, anchor=tk.SE)
 
     def load_names_from_excel(self):
         self.names = []
@@ -32,14 +35,21 @@ class FloatingWindow:
         for row in ws.iter_rows(values_only=True):
             self.names.extend(row)
 
-#   #选择随机姓名
+    # 选择随机姓名
     def update_name(self, event=None):
         name = random.choice(self.names)
-        self.label.config(text=name)
+        self.name_label.config(text=name)
+
+    # 切换隐藏/显示窗口状态
+    def toggle_window(self, event):
+        self.shift_pressed = not self.shift_pressed
+        if self.shift_pressed:
+            self.master.withdraw()  # 隐藏窗口
+        else:
+            self.master.deiconify()  # 显示窗口
 
 def main():
     root = tk.Tk()
-    root.geometry("650x230+100+100")  # 设置窗口大小和位置
     app = FloatingWindow(root)
     root.mainloop()
 
