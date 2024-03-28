@@ -2,12 +2,20 @@ import tkinter as tk
 import random
 import openpyxl
 import keyboard
+import requests
+from tkinter import messagebox
 
 class FloatingWindow:
     def __init__(self, master):
         self.master = master
         master.title("点名器")   # 设置窗口标题
         master.geometry("650x300+100+100")  # 设置窗口大小和位置
+
+        # 存储当前版本号
+        self.current_version = "1.1.1"
+
+        # 获取远程服务器上的最新版本号
+        self.latest_version = self.get_latest_version()
 
         self.load_names_from_excel()
 
@@ -25,8 +33,15 @@ class FloatingWindow:
         keyboard.on_press_key("shift", self.toggle_window)
 
         # 添加提示文本
-        self.tip_label = tk.Label(master, text="按下 Shift 键隐藏/显示窗口", font=("仿宋", 12), fg="gray")
+        self.tip_label = tk.Label(master, text="按下 Shift 键隐藏窗口", font=("仿宋", 12), fg="gray")
         self.tip_label.place(relx=1.0, rely=1.0, anchor=tk.SE)
+
+        # 显示当前版本
+        self.version_label = tk.Label(master, text=f"当前版本：{self.current_version}", font=("仿宋", 12))
+        self.version_label.place(relx=0.5, rely=1.0, anchor=tk.S)
+
+        # 检查更新并显示通知
+        self.check_and_notify_update()
 
     def load_names_from_excel(self):
         self.names = []
@@ -47,6 +62,22 @@ class FloatingWindow:
             self.master.withdraw()  # 隐藏窗口
         else:
             self.master.deiconify()  # 显示窗口
+
+    # 获取远程服务器上的最新版本号
+    def get_latest_version(self):
+        try:
+            response = requests.get("https://api.github.com/repos/HowCam/ClickToChooseARandomName/releases/latest")
+            latest_version = response.json()["tag_name"]
+            return latest_version
+        except Exception as e:
+            print("Error fetching latest version:", e)
+            return None
+
+    # 检查更新并显示通知
+    def check_and_notify_update(self):
+        if self.latest_version and self.latest_version != self.current_version:
+            message = f"发现新版本 {self.latest_version}，请前往 GitHub 下载！"
+            messagebox.showinfo("更新提示", message)
 
 def main():
     root = tk.Tk()
