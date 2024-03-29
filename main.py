@@ -4,19 +4,20 @@ import openpyxl
 import keyboard
 import requests
 import webbrowser
+import pygame
 from tkinter import messagebox, filedialog
 
 class FloatingWindow:
     def __init__(self, master):
         self.master = master
-        master.title("点名器v1.2.1")   # 设置窗口标题
+        master.title("点名器v1.2.2")   # 设置窗口标题
         master.geometry("650x240+100+400")  # 设置窗口大小和位置
 
         # 设置图标
         master.iconbitmap("icon.ico")
 
         # 存储当前版本号
-        self.current_version = "1.2.1"
+        self.current_version = "1.2.2"
 
         # 获取远程服务器上的最新版本号和release描述
         self.latest_version, self.latest_version_desc = self.get_latest_version()
@@ -36,6 +37,11 @@ class FloatingWindow:
         # 创建显示姓名总数的标签
         self.total_names_label = tk.Label(master, text="姓名总数：0", font=("仿宋", 10))
         self.total_names_label.place(relx=0, rely=1, anchor=tk.SW)
+
+        # 创建音效开关按钮
+        self.sound_button = tk.Button(master, text="关闭音效", command=self.toggle_sound)
+        self.sound_button.place(relx=0.13, rely=0.93, anchor=tk.SE)
+        self.sound_enabled = True  # 初始音效状态为开启
 
         # 加载姓名数据
         self.load_names_from_excel()
@@ -65,6 +71,9 @@ class FloatingWindow:
         if self.current_version != self.latest_version:
             self.update_button = tk.Button(master, text="查看更新", command=self.view_update)
             self.update_button.place(relx=1, rely=0.93, anchor=tk.SE)
+
+        # 初始化pygame
+        pygame.mixer.init()
 
         # 设置窗口置顶
         master.attributes("-topmost", True)
@@ -100,8 +109,12 @@ class FloatingWindow:
         try:
             name = random.choice(self.names)
             self.name_label.config(text=name)
+            # 播放音效
+            if self.sound_enabled:
+                pygame.mixer.music.load("sound.wav")
+                pygame.mixer.music.play()
         except Exception as e:
-            messagebox.showerror("错误", f"更新姓名失败：{e}")
+            messagebox.showerror("错误", f"出现错误：{e}")
 
     # 切换隐藏/显示窗口状态
     def toggle_window(self, event):
@@ -158,6 +171,14 @@ class FloatingWindow:
     # 打开最新版本的 release 页面
     def view_update(self):
         webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/releases/latest")
+
+    # 切换音效状态
+    def toggle_sound(self):
+        self.sound_enabled = not self.sound_enabled
+        if self.sound_enabled:
+            self.sound_button.config(text="关闭音效")
+        else:
+            self.sound_button.config(text="开启音效")
 
 def main():
     root = tk.Tk()
