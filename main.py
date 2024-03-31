@@ -40,7 +40,7 @@ class FloatingWindow:
 
         # 创建音效开关按钮
         self.sound_button = tk.Button(master, text="关闭音效", command=self.toggle_sound)
-        self.sound_button.place(relx=0.13, rely=0.93, anchor=tk.SE)
+        self.sound_button.place(relx=0.09, rely=0.93, anchor=tk.SE)
         self.sound_enabled = True  # 初始音效状态为开启
 
         # 加载姓名数据
