@@ -12,6 +12,8 @@ class FloatingWindow:
         self.master = master
         master.title("点名器v1.2.2")   # 设置窗口标题
         master.geometry("650x240+100+400")  # 设置窗口大小和位置
+        bg_color = "#ccffcc"  # 设置背景颜色
+        master.configure(bg=bg_color)  # 设置窗口背景颜色
 
         # 设置图标
         master.iconbitmap("icon.ico")
@@ -23,11 +25,11 @@ class FloatingWindow:
         self.latest_version, self.latest_version_desc = self.get_latest_version()
 
         # 创建姓名标签
-        self.name_label = tk.Label(master, font=("楷体", 120), fg="#005f35")
+        self.name_label = tk.Label(master, font=("楷体", 120), fg="#005f35", bg=bg_color)
         self.name_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         # 创建显示文件路径的标签
-        self.file_path_label = tk.Label(master, text="", font=("等线", 10), fg='gray')
+        self.file_path_label = tk.Label(master, text="", font=("等线", 10), fg='gray', bg=bg_color)
         self.file_path_label.place(relx=0, rely=0, anchor=tk.NW)
 
         # 创建导入名单按钮，改名为"导入名单"
@@ -35,7 +37,7 @@ class FloatingWindow:
         self.import_button.place(relx=1, rely=0, anchor=tk.NE)
 
         # 创建显示姓名总数的标签
-        self.total_names_label = tk.Label(master, text="姓名总数：0", font=("仿宋", 10))
+        self.total_names_label = tk.Label(master, text="姓名总数：0", font=("仿宋", 10), bg=bg_color)
         self.total_names_label.place(relx=0, rely=1, anchor=tk.SW)
 
         # 创建音效开关按钮
@@ -57,19 +59,19 @@ class FloatingWindow:
         keyboard.on_press_key("v", self.toggle_window)
 
         # 添加提示文本
-        self.tip_label = tk.Label(master, text="按下 V 键隐藏/显示窗口", font=("仿宋", 10), fg="gray")
+        self.tip_label = tk.Label(master, text="按下 V 键隐藏/显示窗口", font=("仿宋", 10), fg="gray", bg=bg_color)
         self.tip_label.place(relx=1.0, rely=1.0, anchor=tk.SE)
 
         # 显示当前版本和最新版本及其描述
         if self.current_version == self.latest_version:
-            self.version_label = tk.Label(master, text=f"当前已是最新版本：{self.current_version}", font=("仿宋", 10))
+            self.version_label = tk.Label(master, text=f"当前已是最新版本：{self.current_version}", font=("仿宋", 10), bg=bg_color)
         else:
-            self.version_label = tk.Label(master, text=f"当前版本：{self.current_version} 最新版本：{self.latest_version}", font=("仿宋", 10))
+            self.version_label = tk.Label(master, text=f"当前版本：{self.current_version} 最新版本：{self.latest_version}", font=("仿宋", 10), bg=bg_color)
         self.version_label.place(relx=0.5, rely=1.0, anchor=tk.S)
 
         # 如果当前版本不是最新版本，则创建查看更新按钮
         if self.current_version != self.latest_version:
-            self.update_button = tk.Button(master, text="查看更新", command=self.view_update)
+            self.update_button = tk.Button(master, text="查看更新", command=self.view_update, bg=bg_color)
             self.update_button.place(relx=1, rely=0.93, anchor=tk.SE)
 
         # 初始化pygame
