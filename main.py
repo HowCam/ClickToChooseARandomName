@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 import random
 import openpyxl
@@ -9,46 +10,68 @@ from tkinter import messagebox, filedialog
 
 class FloatingWindow:
     def __init__(self, master):
+
+        #设置窗口
         self.master = master
-        master.title("点名器v1.2.2")   # 设置窗口标题
-        master.geometry("650x240+100+400")  # 设置窗口大小和位置
-        bg_color = "#ccffcc"  # 设置背景颜色
+        master.title("点名器v2.0.0")   # 设置窗口标题
+        master.geometry("650x250+100+400")  # 设置窗口大小和位置
+        bg_color = "#ccffcc"  # 存储默认背景颜色
         master.configure(bg=bg_color)  # 设置窗口背景颜色
 
         # 设置图标
         master.iconbitmap("icon.ico")
 
         # 存储当前版本号
-        self.current_version = "1.2.2"
+        self.current_version = "2.0.0"
 
-        # 获取远程服务器上的最新版本号和release描述
+        # 获取github上的最新版本号和release描述
         self.latest_version, self.latest_version_desc = self.get_latest_version()
 
-        # 创建姓名标签
+        # 创建姓名标签（居中）
         self.name_label = tk.Label(master, font=("楷体", 120), fg="#005f35", bg=bg_color)
         self.name_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        # 创建显示文件路径的标签
+        # 创建显示文件路径的标签（左上）
         self.file_path_label = tk.Label(master, text="", font=("等线", 10), fg='gray', bg=bg_color)
         self.file_path_label.place(relx=0, rely=0, anchor=tk.NW)
 
-        # 创建导入名单按钮，改名为"导入名单"
+        # 创建导入名单按钮（右上）
         self.import_button = tk.Button(master, text="导入名单", command=self.manual_import)
-        self.import_button.place(relx=1, rely=0, anchor=tk.NE)
+        self.import_button.pack(side=tk.TOP, anchor=tk.NE)
 
-        # 创建显示姓名总数的标签
+        # 添加提示文本（右下）
+        self.tip_label = tk.Label(master, text="按下 V 键隐藏/显示窗口", font=("仿宋", 10), fg="gray", bg=bg_color)
+        self.tip_label.pack(side=tk.BOTTOM, anchor=tk.SE)
+
+        # 创建查看帮助按钮（右下）
+        self.help_button = tk.Button(master, text="查看帮助", command=self.show_help)
+        self.help_button.pack(side=tk.RIGHT, anchor=tk.SE)
+        
+        # 如果当前版本不是最新版本，则创建查看更新按钮（右下）
+        if self.current_version != self.latest_version:
+            self.update_button = tk.Button(master, text="查看更新", command=self.view_update)
+            self.update_button.pack(side=tk.RIGHT, anchor=tk.SE)
+        
+        # 创建显示姓名总数的标签（左下）
         self.total_names_label = tk.Label(master, text="姓名总数：0", font=("仿宋", 10), bg=bg_color)
         self.total_names_label.place(relx=0, rely=1, anchor=tk.SW)
 
-        # 创建音效开关按钮
-        self.sound_button = tk.Button(master, text="关闭音效", command=self.toggle_sound)
-        self.sound_button.place(relx=0.09, rely=0.93, anchor=tk.SE)
+        # 创建音效开关按钮（左下）
+        self.sound_button = tk.Button(master, text="音效：开", command=self.toggle_sound)
+        self.sound_button.place(relx=0, rely=0.93, anchor=tk.SW)
         self.sound_enabled = True  # 初始音效状态为开启
+
+        # 显示当前版本和最新版本及其描述（下居中）
+        if self.current_version == self.latest_version:
+            self.version_label = tk.Label(master, text=f"当前已是最新版本：{self.current_version}", font=("仿宋", 10), bg=bg_color)
+        else:
+            self.version_label = tk.Label(master, text=f"当前版本：{self.current_version} 最新版本：{self.latest_version}", font=("仿宋", 10), bg=bg_color)
+        self.version_label.place(relx=0.5, rely=1.0, anchor=tk.S)
 
         # 加载姓名数据
         self.load_names_from_excel()
 
-        # 绑定事件
+        # 绑定键盘/鼠标触发刷新
         self.name_label.bind("<Button-1>", self.update_name)
         self.master.bind("<space>", self.update_name)
         self.master.bind("<Return>", self.update_name)
@@ -57,22 +80,6 @@ class FloatingWindow:
         # 添加全局键盘监听事件
         self.shift_pressed = False
         keyboard.on_press_key("v", self.toggle_window)
-
-        # 添加提示文本
-        self.tip_label = tk.Label(master, text="按下 V 键隐藏/显示窗口", font=("仿宋", 10), fg="gray", bg=bg_color)
-        self.tip_label.place(relx=1.0, rely=1.0, anchor=tk.SE)
-
-        # 显示当前版本和最新版本及其描述
-        if self.current_version == self.latest_version:
-            self.version_label = tk.Label(master, text=f"当前已是最新版本：{self.current_version}", font=("仿宋", 10), bg=bg_color)
-        else:
-            self.version_label = tk.Label(master, text=f"当前版本：{self.current_version} 最新版本：{self.latest_version}", font=("仿宋", 10), bg=bg_color)
-        self.version_label.place(relx=0.5, rely=1.0, anchor=tk.S)
-
-        # 如果当前版本不是最新版本，则创建查看更新按钮
-        if self.current_version != self.latest_version:
-            self.update_button = tk.Button(master, text="查看更新", command=self.view_update, bg=bg_color)
-            self.update_button.place(relx=1, rely=0.93, anchor=tk.SE)
 
         # 初始化pygame
         pygame.mixer.init()
@@ -140,7 +147,7 @@ class FloatingWindow:
     # 手动导入功能
     def manual_import(self):
         try:
-            file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx *.xls"), ("All Files", "*.*")])
+            file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
             if file_path:
                 self.names = []
                 wb = openpyxl.load_workbook(file_path, read_only=True)
@@ -166,11 +173,11 @@ class FloatingWindow:
     # 检查更新并显示通知
     def check_and_notify_update(self):
         if self.latest_version and self.latest_version != self.current_version:
-            message = f"发现新版本 {self.latest_version}，是否立即下载？\n\n版本描述：\n{self.latest_version_desc}"
+            message = f"发现新版本 {self.latest_version}，是否打开GitHub查看？\n\n版本描述：\n\n{self.latest_version_desc}"
             if messagebox.askyesno("更新提示", message):
                 webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/releases/latest")
 
-    # 打开最新版本的 release 页面
+    # 查看更新，打开最新版本的 release 页面
     def view_update(self):
         webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/releases/latest")
 
@@ -178,9 +185,13 @@ class FloatingWindow:
     def toggle_sound(self):
         self.sound_enabled = not self.sound_enabled
         if self.sound_enabled:
-            self.sound_button.config(text="关闭音效")
+            self.sound_button.config(text="音效：开")
         else:
-            self.sound_button.config(text="开启音效")
+            self.sound_button.config(text="音效：关")
+    
+    # 显示帮助信息，打开最新README.md文件
+    def show_help(self):
+        webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/blob/main/README.md")
 
 def main():
     root = tk.Tk()
