@@ -6,12 +6,13 @@ import keyboard
 import requests
 import webbrowser
 import pygame
+import subprocess
 from tkinter import messagebox, filedialog
 
 class FloatingWindow:
     def __init__(self, master):
 
-        #设置窗口
+        # 设置窗口
         self.master = master
         master.title("点名器v2.0.0")   # 设置窗口标题
         master.geometry("650x250+100+400")  # 设置窗口大小和位置
@@ -49,7 +50,7 @@ class FloatingWindow:
         
         # 如果当前版本不是最新版本，则创建查看更新按钮（右下）
         if self.current_version != self.latest_version:
-            self.update_button = tk.Button(master, text="查看更新", command=self.view_update)
+            self.update_button = tk.Button(master, text="查看更新", command=self.check_update)
             self.update_button.pack(side=tk.RIGHT, anchor=tk.SE)
         
         # 创建显示姓名总数的标签（左下）
@@ -173,12 +174,25 @@ class FloatingWindow:
     # 检查更新并显示通知
     def check_and_notify_update(self):
         if self.latest_version and self.latest_version != self.current_version:
-            message = f"发现新版本 {self.latest_version}，是否打开GitHub查看？\n\n版本描述：\n\n{self.latest_version_desc}"
+            message = f"发现新版本 {self.latest_version}，是否下载并安装？\n\n版本描述：\n\n{self.latest_version_desc}"
             if messagebox.askyesno("更新提示", message):
-                webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/releases/latest")
+                self.download_and_install_update()
+
+    # 下载并安装更新
+    def download_and_install_update(self):
+        try:
+            url = f"https://github.com/HowCam/ClickToChooseARandomName/releases/download/{self.latest_version}/setup.exe"
+            response = requests.get(url)
+            with open("setup.exe", "wb") as f:
+                f.write(response.content)
+            # 执行安装文件
+            subprocess.Popen(["setup.exe"])
+            self.master.destroy()  # 关闭当前程序
+        except Exception as e:
+            messagebox.showerror("错误", f"下载和安装更新失败：{e}")
 
     # 查看更新，打开最新版本的 release 页面
-    def view_update(self):
+    def check_update(self):
         webbrowser.open("https://github.com/HowCam/ClickToChooseARandomName/releases/latest")
 
     # 切换音效状态
