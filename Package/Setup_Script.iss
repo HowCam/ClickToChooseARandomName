@@ -1,14 +1,14 @@
 //待打包的文件路径为：./source/
-//每次需要更改的参数：版本号、UID
-//先定义一些常量
+//每次打包需要更改的参数：版本号、UID
+
 //程序名
 #define MyAppName "随机点名器"
 //程序图标路径，相对于iss脚本的相对路径
 #define MyAppIcon ".\source\icon.ico"
 //程序版本号
-#define MyAppVersion "1.2.2"
+#define MyAppVersion "Demo_Version"
 // 发行者
-#define MyAppPublisher "HowCam"
+#define MyAppPublisher "Fenghao Zhao"
 //网址
 #define MyAppURL "https://www.github.com/HowCam/ClickToChooseARandomName"
 //可执行程序名
@@ -17,8 +17,8 @@
 #define MyAppExePath "source"
 //程序默认安装目录
 #define MyAppInstallPath "C:\ClickToChooseARandomName\"
-//程序uuid，点工具生成唯一的GUID
-#define MyUid "9BBA7D49-74C0-4908-8C6E-E561CE7C4873"
+//程序uuid
+#define MyUid "D6056CA4-D881-494E-B303-001B974B56F8"
  
 [Setup]
 //[Setup]-该区段包含用于安装程序和卸载程序的全局设置
@@ -42,8 +42,8 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=admin
 //安装包生成后所在文件夹和文件名
 OutputDir=install\{#MyAppVersion}
-OutputBaseFilename={#MyAppName} x64 V{#MyAppVersion}
-//选择压缩方法，lzma为7z
+OutputBaseFilename=setup
+//选择压缩方法
 Compression=lzma2
 //启用固态压缩，详见文档
 SolidCompression=yes
@@ -53,8 +53,6 @@ WizardStyle=modern
 SetupIconFile={#MyAppIcon}
 //控制面板卸载图标
 UninstallDisplayIcon={#MyAppIcon}
-//开始菜单分组，see[Icons]区段
-//DefaultGroupName={#MyAppPublisher}\by
 //控制面板-添加/删除页面中的程序相关信息
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -75,16 +73,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 //[Files]-这是定义安装程序安装文件到用户系统中的可选文件区段
 Source: "{#MyAppExePath}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExePath}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-//注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
  
 [Icons]
 //[Icons]-定义所有创建在开始菜单和/或其它位置(比如桌面)的快捷方式
-//see[Setup]区段DefaultGroupName设置
-//使用菜单分组
-//Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename:"{app}\{#MyAppIcon}"
-//Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"; IconFilename:"{app}\{#MyAppIcon}"
-//Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename:"{app}\{#MyAppIcon}"
-//没有菜单分组
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon;
  
@@ -94,9 +85,6 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
  
 [Code]
 //[Code]-指定 Pascal 脚本的可选区段
-//路径参照两个博客：
-//https://blog.csdn.net/c1007857613/article/details/81475167
-//https://www.cnblogs.com/csuftzzk/p/innosetup_read_registry.html
 //全局变量保存安装路径
 var 
   globalInstallPath: String;

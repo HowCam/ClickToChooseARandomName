@@ -1,3 +1,8 @@
+# TO-DO: Loading window for auto updating.
+# DONE: 
+#        改进了初次打开软件时的提示窗口。
+#           -from:Can not choose from an empty sequence.
+#           - to: 当前文件路径为空，请导入名单！
 import os
 import tkinter as tk
 import random
@@ -14,7 +19,7 @@ class FloatingWindow:
 
         # 设置窗口
         self.master = master
-        master.title("点名器v2.0.0")   # 设置窗口标题
+        master.title("点名器v2.0.1")   # 设置窗口标题
         master.geometry("650x250+100+400")  # 设置窗口大小和位置
         bg_color = "#ccffcc"  # 存储默认背景颜色
         master.configure(bg=bg_color)  # 设置窗口背景颜色
@@ -23,7 +28,7 @@ class FloatingWindow:
         master.iconbitmap("icon.ico")
 
         # 存储当前版本号
-        self.current_version = "2.0.0"
+        self.current_version = "2.0.1"
 
         # 获取github上的最新版本号和release描述
         self.latest_version, self.latest_version_desc = self.get_latest_version()
@@ -79,7 +84,7 @@ class FloatingWindow:
         self.master.bind("<Down>", self.update_name)
 
         # 添加全局键盘监听事件
-        self.shift_pressed = False
+        self.visible_pressed = False
         keyboard.on_press_key("v", self.toggle_window)
 
         # 初始化pygame
@@ -124,12 +129,22 @@ class FloatingWindow:
                 pygame.mixer.music.load("sound.wav")
                 pygame.mixer.music.play()
         except Exception as e:
-            messagebox.showerror("错误", f"出现错误：{e}")
+            try:
+            # 尝试读取上次导入的文件路径
+                with open("last_file_path.txt", "r") as f:
+                    file_path = f.read().strip()
+            except FileNotFoundError:
+                file_path = None
+            
+            if file_path == None:
+                messagebox.showerror("错误", f"当前文件路径为空，请导入名单！")
+            else:
+                messagebox.showerror("错误", f"出现错误：{e}")
 
     # 切换隐藏/显示窗口状态
     def toggle_window(self, event):
-        self.shift_pressed = not self.shift_pressed
-        if self.shift_pressed:
+        self.visible_pressed = not self.visible_pressed
+        if self.visible_pressed:
             self.master.withdraw()  # 隐藏窗口
         else:
             self.master.deiconify()  # 显示窗口
@@ -156,7 +171,7 @@ class FloatingWindow:
                 for row in ws.iter_rows(values_only=True):
                     self.names.extend(row)
                 self.save_last_file_path(file_path)
-                self.update_name()  # 导入成功后刷新姓名
+                self.update_name()  # 导入成功后刷新一次姓名，避免导入后不出现姓名。
                 self.file_path_label.config(text=f"当前文件路径：{file_path}")
                 self.total_names_label.config(text=f"姓名总数：{len(self.names)}")  # 更新姓名总数
                 messagebox.showinfo("提示", "导入成功！")
@@ -174,14 +189,14 @@ class FloatingWindow:
     # 检查更新并显示通知
     def check_and_notify_update(self):
         if self.latest_version and self.latest_version != self.current_version:
-            message = f"发现新版本 {self.latest_version}，是否下载并安装？\n\n版本描述：\n\n{self.latest_version_desc}"
+            message = f"发现新版本 {self.latest_version}，是否下载并安装？\n（下载过程用时大约为1分钟，请勿关闭程序！）\n（下载完成后将自动关闭程序并运行安装包）\n\n版本描述：\n\n{self.latest_version_desc}"
             if messagebox.askyesno("更新提示", message):
                 self.download_and_install_update()
 
     # 下载并安装更新
     def download_and_install_update(self):
         try:
-            url = f"https://github.com/HowCam/ClickToChooseARandomName/releases/download/{self.latest_version}/setup.exe"
+            url = f"https://gitee.com/zhaofenghao/ClickToChooseARandomName/releases/download/{self.latest_version}/setup.exe"
             response = requests.get(url)
             with open("setup.exe", "wb") as f:
                 f.write(response.content)
@@ -210,7 +225,7 @@ class FloatingWindow:
 def main():
     root = tk.Tk()
     app = FloatingWindow(root)
-    app.update_name()  # 初始化时更新一次姓名
+    app.update_name()  # 初始化时更新一次姓名，避免打开软件不显示姓名。
     app.check_and_notify_update()  # 检查更新
     root.mainloop()
 
