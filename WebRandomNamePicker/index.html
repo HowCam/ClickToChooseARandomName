@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页版随机点名器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="name-display">
+            <div id="currentName">点击抽取</div>
+        </div>
+        
+        <div class="main-button">
+            <button id="pickButton">
+                <div class="button-icon">🎲</div>
+                <div class="button-text">抽取名字</div>
+            </button>
+        </div>
+        
+        <div class="control-buttons">
+            <button id="modeButton">
+                <div class="button-icon">🔀</div>
+                <div class="button-text">直接模式</div>
+            </button>
+            
+            <button id="importButton">
+                <div class="button-icon">📥</div>
+                <div class="button-text">导入名单</div>
+            </button>
+
+            <button id="switchGroupButton">
+                <div class="button-icon">🔄</div>
+                <div class="button-text">切换小组</div>
+            </button>
+        </div>
+        
+        <!-- 导入名单面板 -->
+        <div class="import-panel" id="importPanel">
+            <h3>导入名单</h3>
+            <div class="group-selector">
+                <select id="groupSelect">
+                    <option value="默认组">默认组</option>
+                </select>
+                <button id="addGroupBtn">+ 新建组</button>
+            </div>
+            <textarea id="nameInput" placeholder="请输入名单，每行一个名字"></textarea>
+            <div class="import-actions">
+            <button id="confirmImport">确认修改名单</button>
+            <button id="cancelImport">关闭</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

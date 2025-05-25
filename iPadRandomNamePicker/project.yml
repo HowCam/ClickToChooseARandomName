@@ -1,0 +1,21 @@
+name: iPadRandomNamePicker
+options:
+  bundleIdPrefix: com.howcam
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  iPadRandomNamePicker:
+    type: application
+    platform: iOS
+    sources: 
+      - path: iPadRandomNamePicker
+    resources:
+      - path: Resources
+    dependencies:
+      - sdk: SwiftUI.framework
+      - sdk: AVFoundation.framework
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.howcam.iPadRandomNamePicker
+      PRODUCT_NAME: iPadRandomNamePicker
+      INFOPLIST_FILE: iPadRandomNamePicker/Info.plist
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

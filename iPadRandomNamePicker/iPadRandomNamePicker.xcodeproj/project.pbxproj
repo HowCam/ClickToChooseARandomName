@@ -1,0 +1,327 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0221163178FF5B6128F7343C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53248A505C1F833537D7509 /* SettingsView.swift */; };
+		08798D3F4A05D2FD1BE7BDCA /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1B464923DF056FFD16BE15 /* ImportView.swift */; };
+		2060F4995CAA47AF922A753C /* NameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B62504366C0D91C6149CCCE /* NameModel.swift */; };
+		4D875EB60885362769E310D4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8B893F47C9155ABF29B0A21 /* SwiftUI.framework */; };
+		804C39C546547C512C27DDBC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 992FF6B0B2EDB35D101DF492 /* AVFoundation.framework */; };
+		A9409C0B897CA37219786741 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B22EB24C5F4F158FDACF5B2 /* ContentView.swift */; };
+		AFC3B6C8C3F93D25EEF36221 /* iPadRandomNamePickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94284B24415C08120DB3F9 /* iPadRandomNamePickerApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		21938C4CE094B10B6FB9457D /* iPadRandomNamePicker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iPadRandomNamePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B62504366C0D91C6149CCCE /* NameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameModel.swift; sourceTree = "<group>"; };
+		5B22EB24C5F4F158FDACF5B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		74DDD82A9900FB994E1F8559 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7E94284B24415C08120DB3F9 /* iPadRandomNamePickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadRandomNamePickerApp.swift; sourceTree = "<group>"; };
+		992FF6B0B2EDB35D101DF492 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B8B893F47C9155ABF29B0A21 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		BA1B464923DF056FFD16BE15 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
+		D53248A505C1F833537D7509 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		299ED0E6AA2E3A87C206D128 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D875EB60885362769E310D4 /* SwiftUI.framework in Frameworks */,
+				804C39C546547C512C27DDBC /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5A94928D8DF42DD4ADB215C3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21938C4CE094B10B6FB9457D /* iPadRandomNamePicker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6EDE2DF6B59716FC660387AF /* iPadRandomNamePicker */ = {
+			isa = PBXGroup;
+			children = (
+				5B22EB24C5F4F158FDACF5B2 /* ContentView.swift */,
+				BA1B464923DF056FFD16BE15 /* ImportView.swift */,
+				74DDD82A9900FB994E1F8559 /* Info.plist */,
+				7E94284B24415C08120DB3F9 /* iPadRandomNamePickerApp.swift */,
+				2B62504366C0D91C6149CCCE /* NameModel.swift */,
+				D53248A505C1F833537D7509 /* SettingsView.swift */,
+			);
+			path = iPadRandomNamePicker;
+			sourceTree = "<group>";
+		};
+		7351E40CD8D3838D1D1AB55F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				992FF6B0B2EDB35D101DF492 /* AVFoundation.framework */,
+				B8B893F47C9155ABF29B0A21 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		795DE7B3966AE7436DDCF0A8 = {
+			isa = PBXGroup;
+			children = (
+				6EDE2DF6B59716FC660387AF /* iPadRandomNamePicker */,
+				7351E40CD8D3838D1D1AB55F /* Frameworks */,
+				5A94928D8DF42DD4ADB215C3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F021DF930FF00E32ABF9C18 /* iPadRandomNamePicker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98DB1881E6C2C2FE90355F05 /* Build configuration list for PBXNativeTarget "iPadRandomNamePicker" */;
+			buildPhases = (
+				BD8CE97A16C2D84DEC66C242 /* Sources */,
+				299ED0E6AA2E3A87C206D128 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iPadRandomNamePicker;
+			packageProductDependencies = (
+			);
+			productName = iPadRandomNamePicker;
+			productReference = 21938C4CE094B10B6FB9457D /* iPadRandomNamePicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5D86B20B074FABF4EFF505EE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 483A44665E52200F0C490E64 /* Build configuration list for PBXProject "iPadRandomNamePicker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 795DE7B3966AE7436DDCF0A8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F021DF930FF00E32ABF9C18 /* iPadRandomNamePicker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD8CE97A16C2D84DEC66C242 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9409C0B897CA37219786741 /* ContentView.swift in Sources */,
+				08798D3F4A05D2FD1BE7BDCA /* ImportView.swift in Sources */,
+				2060F4995CAA47AF922A753C /* NameModel.swift in Sources */,
+				0221163178FF5B6128F7343C /* SettingsView.swift in Sources */,
+				AFC3B6C8C3F93D25EEF36221 /* iPadRandomNamePickerApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0881EECF48CC570D7A2F2B4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iPadRandomNamePicker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.howcam.iPadRandomNamePicker;
+				PRODUCT_NAME = iPadRandomNamePicker;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		850911456BA850DAE8EDB5E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E19092C2C3B5AC97B45455A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = iPadRandomNamePicker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.howcam.iPadRandomNamePicker;
+				PRODUCT_NAME = iPadRandomNamePicker;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F2CDA87F4260DC55E2AE637C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		483A44665E52200F0C490E64 /* Build configuration list for PBXProject "iPadRandomNamePicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				850911456BA850DAE8EDB5E1 /* Debug */,
+				F2CDA87F4260DC55E2AE637C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		98DB1881E6C2C2FE90355F05 /* Build configuration list for PBXNativeTarget "iPadRandomNamePicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0881EECF48CC570D7A2F2B4F /* Debug */,
+				E19092C2C3B5AC97B45455A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5D86B20B074FABF4EFF505EE /* Project object */;
+}
