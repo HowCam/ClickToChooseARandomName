@@ -194,16 +194,6 @@ function init() {
         document.getElementById('newNameList').value = '';
     });
 
-    // 选择组并关闭面板
-    document.getElementById('confirmSelect').addEventListener('click', () => {
-        const groupName = document.getElementById('groupSelect').value;
-        nameModel.currentGroup = groupName;
-        nameModel.saveNames();
-        nameModel.pickRandomName();
-        updateNameDisplay();
-        document.getElementById('selectPanel').style.display = 'none';
-    });
-
     // 尝试加载本地存储的名单
     if (!nameModel.loadNames()) {
         // 如果没有本地数据，加载测试数据
@@ -238,11 +228,16 @@ function updateNameDisplay() {
 
 // 更新模式按钮显示
 function updateModeButton() {
-    const icon = modeButton.querySelector('.button-icon');
+    const icon = modeButton.querySelector('.button-icon svg');
     const text = modeButton.querySelector('.button-text');
     
-    icon.textContent = isRollingMode ? '🔄' : '🔀';
-    text.textContent = isRollingMode ? '滚动模式' : '直接模式';
+    if (isRollingMode) {
+        icon.innerHTML = '<path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>';
+        text.textContent = '滚动模式';
+    } else {
+        icon.innerHTML = '<path fill="currentColor" d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM16.34 20l-2.59-2.59-1.41 1.41 3.17 3.18 4.25-4.25-1.42-1.41L16.34 20zM14 4h2v12h-2V4z"/>';
+        text.textContent = '直接模式';
+    }
 }
 
 // 当DOM加载完成后启动应用

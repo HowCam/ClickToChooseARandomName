@@ -58,16 +58,21 @@ button {
 }
 
 .button-icon {
-    font-size: 40px;
     width: 80px;
     height: 80px;
     background-color: #007AFF;
-    color: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 8px;
+}
+
+.button-icon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    fill: currentColor;
 }
 
 .button-text {
