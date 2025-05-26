@@ -25,9 +25,9 @@
                 <div class="button-text">直接模式</div>
             </button>
             
-            <button id="importButton">
-                <div class="button-icon">📥</div>
-                <div class="button-text">导入名单</div>
+            <button id="selectButton">
+                <div class="button-icon">📋</div>
+                <div class="button-text">选择名单</div>
             </button>
 
             <button id="switchGroupButton">
@@ -36,23 +36,43 @@
             </button>
         </div>
         
-        <!-- 导入名单面板 -->
-        <div class="import-panel" id="importPanel">
-            <h3>导入名单</h3>
+        <!-- 选择名单面板 -->
+        <div class="panel" id="selectPanel">
+            <h3>选择名单</h3>
             <div class="group-selector">
                 <select id="groupSelect">
                     <option value="默认组">默认组</option>
                 </select>
-                <button id="addGroupBtn">+ 新建组</button>
             </div>
-            <textarea id="nameInput" placeholder="请输入名单，每行一个名字"></textarea>
-            <div class="import-actions">
-            <button id="confirmImport">确认修改名单</button>
-            <button id="cancelImport">关闭</button>
+            <div class="panel-actions">
+                <button id="showImportPanel" class="left-button">导入新名单</button>
+                <div class="right-buttons">
+                    <button id="confirmSelect">确认</button>
+                    <button id="closeSelectPanel">关闭</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 导入新名单面板 -->
+        <div class="panel" id="importPanel">
+            <h3>导入新名单</h3>
+            <div class="input-group">
+                <label for="newGroupName">新组名称:</label>
+                <input type="text" id="newGroupName" placeholder="输入新组名">
+            </div>
+            <textarea id="newNameList" placeholder="请输入名单，每行一个名字"></textarea>
+            <div class="panel-actions">
+                <button id="saveImport" class="left-button">保存</button>
+                <button id="closeImportPanel">关闭</button>
             </div>
         </div>
     </div>
     
+    <footer class="footer">
+        <p>作者: 3604402972 (QQ)</p>
+        <p>© 2025 随机点名器 - 版权所有</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

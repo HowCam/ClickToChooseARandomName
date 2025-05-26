@@ -4,20 +4,25 @@ body {
     margin: 0;
     padding: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
     min-height: 100vh;
 }
 
 .container {
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .name-display {
     background-color: white;
     border-radius: 20px;
     padding: 30px;
+    width: 350px;
     margin-bottom: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -86,12 +91,12 @@ button {
     background-color: #FF9500;
 }
 
-#importButton .button-icon {
+#selectButton .button-icon {
     background-color: #34C759;
 }
 
-/* 导入面板样式 */
-.import-panel {
+/* 面板通用样式 */
+.panel {
     display: none;
     position: fixed;
     top: 50%;
@@ -106,14 +111,110 @@ button {
     z-index: 100;
 }
 
-.import-panel h3 {
+.panel h3 {
     margin-top: 0;
     color: #007AFF;
     text-align: center;
 }
 
-.import-panel textarea {
+/* 选择名单面板 */
+#selectPanel {
+    text-align: center;
+}
+
+.group-selector {
+    margin: 20px 0;
+}
+
+.group-selector select {
     width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.panel-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.left-button {
+    background-color: rgba(52, 199, 89, 0.1);
+    color: #34C759;
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.left-button:hover {
+    background-color: rgba(52, 199, 89, 0.2);
+}
+
+.right-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.right-buttons button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#confirmSelect {
+    background-color: rgba(0, 122, 255, 0.1);
+    color: #007AFF;
+    border: 1px solid rgba(0, 122, 255, 0.3);
+}
+
+#confirmSelect:hover {
+    background-color: rgba(0, 122, 255, 0.2);
+}
+
+#closeSelectPanel, #closeImportPanel {
+    background-color: rgba(142, 142, 147, 0.1);
+    color: #333;
+    border: 1px solid rgba(142, 142, 147, 0.3);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#closeSelectPanel:hover, #closeImportPanel:hover {
+    background-color: rgba(142, 142, 147, 0.2);
+}
+
+/* 导入新名单面板 */
+#importPanel {
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: calc(100% - 20px); /* 减去padding和边距 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-right: 0;
+}
+
+#newNameList {
+    width: calc(100% - 20px); /* 减去padding宽度 */
     height: 200px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -123,66 +224,35 @@ button {
     font-family: inherit;
 }
 
-.import-actions {
-    display: flex;
-    justify-content: space-between;
-}
-
-.import-actions button {
+#saveImport {
+    background-color: rgba(0, 122, 255, 0.1);
+    color: #007AFF;
+    border: 1px solid rgba(0, 122, 255, 0.3);
     padding: 10px 20px;
     border-radius: 8px;
-    border: none;
     font-weight: bold;
     cursor: pointer;
 }
 
-#importConfirm {
-    background-color: rgba(0, 122, 255, 0.1);
-    color: #007AFF;
-    border: 1px solid rgba(0, 122, 255, 0.3);
-    transition: all 0.2s;
-}
-
-#importConfirm:hover {
+#saveImport:hover {
     background-color: rgba(0, 122, 255, 0.2);
 }
 
-#importCancel {
-    background-color: rgba(142, 142, 147, 0.1);
-    color: #333;
-    border: 1px solid rgba(142, 142, 147, 0.3);
-    transition: all 0.2s;
+/* 页脚样式 */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+    bottom: 0;
 }
 
-#importCancel:hover {
-    background-color: rgba(142, 142, 147, 0.2);
-}
-
-.group-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.group-selector select {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: white;
-}
-
-#addGroupBtn {
-    padding: 8px 12px;
-    background-color: rgba(52, 199, 89, 0.1);
-    color: #34C759;
-    border: 1px solid rgba(52, 199, 89, 0.3);
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-#addGroupBtn:hover {
-    background-color: rgba(52, 199, 89, 0.2);
+.footer p {
+    margin: 5px 0;
 }
 
 /* 遮罩层 */

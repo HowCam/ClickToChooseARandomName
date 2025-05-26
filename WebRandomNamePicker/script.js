@@ -1,28 +1,33 @@
+// 定义NameModel类，用于管理名字数据和相关操作
 class NameModel {
     constructor() {
+        // 初始化数据
         this.groups = {
             '默认组': []
         };
-        this.currentGroup = '默认组';
-        this.currentName = null;
-        this.isRollingMode = false;
-        this.isRolling = false;
-        this.scrollInterval = null;
-        this.speed = 50;
-        this.acceleration = 0.95;
+        this.currentGroup = '默认组';  // 当前选中的组
+        this.currentName = null;      // 当前选中的名字
+        this.isRollingMode = false;   // 是否为滚动模式
+        this.isRolling = false;       // 是否正在滚动
+        this.scrollInterval = null;   // 滚动定时器
+        this.speed = 50;              // 滚动初始速度
+        this.acceleration = 0.95;     // 滚动减速系数
     }
 
+    // 获取当前组的名字列表
     get names() {
         return this.groups[this.currentGroup] || [];
     }
 
+    // 随机选取一个名字
     pickRandomName() {
-        if (this.names.length === 0) return;
+        if (this.names.length === 0) return;  // 如果列表为空则返回
         this.currentName = this.names[Math.floor(Math.random() * this.names.length)];
-        this.playSound();
+        this.playSound();  // 播放音效
         return this.currentName;
     }
 
+    // 开始滚动选择名字
     startRolling() {
         if (this.names.length === 0 || this.isRolling) return;
         
@@ -30,49 +35,55 @@ class NameModel {
         this.speed = 50;
         let counter = 0;
         
+        // 设置定时器实现滚动效果
         this.scrollInterval = setInterval(() => {
             this.pickRandomName();
             updateNameDisplay();
             
             counter++;
-            this.speed *= this.acceleration;
+            this.speed *= this.acceleration;  // 逐渐减速
             
+            // 停止条件：滚动超过30次或速度低于5
             if (counter > 30 || this.speed < 5) {
                 this.stopRolling();
             }
         }, this.speed);
     }
 
+    // 停止滚动
     stopRolling() {
         clearInterval(this.scrollInterval);
         this.isRolling = false;
     }
 
+    // 播放点击音效
     playSound() {
         const audio = new Audio('click.wav');
         audio.play().catch(e => console.log('无法播放音效:', e));
     }
 
+    // 导入名字列表到指定组
     importNames(text, groupName = this.currentGroup) {
         if (!this.groups[groupName]) {
-            this.groups[groupName] = [];
+            this.groups[groupName] = [];  // 如果组不存在则创建
         }
+        // 分割文本并过滤空行
         this.groups[groupName] = text.split('\n')
             .filter(name => name.trim() !== '');
         this.currentGroup = groupName;
-        this.saveNames();
+        this.saveNames();  // 保存到本地存储
         this.pickRandomName();
         updateNameDisplay();
         this.updateGroupSelector();
-        // 确保文本框内容更新为当前组名单
-        document.getElementById('nameInput').value = this.groups[groupName].join('\n');
     }
 
+    // 更新组选择器下拉菜单
     updateGroupSelector() {
         const select = document.getElementById('groupSelect');
         if (!select) return;
         
         select.innerHTML = '';
+        // 为每个组创建option元素
         Object.keys(this.groups).forEach(group => {
             const option = document.createElement('option');
             option.value = group;
@@ -82,9 +93,10 @@ class NameModel {
         });
     }
 
+    // 添加新组
     addGroup(groupName) {
         if (!groupName.trim()) return false;
-        if (this.groups[groupName]) return false;
+        if (this.groups[groupName]) return false;  // 组已存在则返回false
         
         this.groups[groupName] = [];
         this.currentGroup = groupName;
@@ -92,6 +104,7 @@ class NameModel {
         return true;
     }
 
+    // 保存数据到本地存储
     saveNames() {
         localStorage.setItem('randomNamePickerGroups', JSON.stringify({
             groups: this.groups,
@@ -99,6 +112,7 @@ class NameModel {
         }));
     }
 
+    // 从本地存储加载数据
     loadNames() {
         const savedData = localStorage.getItem('randomNamePickerGroups');
         if (savedData) {
@@ -114,67 +128,81 @@ class NameModel {
     }
 }
 
+// 创建NameModel实例
 const nameModel = new NameModel();
-let isRollingMode = false;
+let isRollingMode = false;  // 全局滚动模式状态
 
-// DOM元素
+// 获取DOM元素
 const currentNameEl = document.getElementById('currentName');
 const pickButton = document.getElementById('pickButton');
 const modeButton = document.getElementById('modeButton');
-const importButton = document.getElementById('importButton');
+const selectButton = document.getElementById('selectButton'); // 修改为选择名单按钮
 
-// 初始化
+// 初始化函数
 function init() {
+    // 为抽取按钮添加点击事件
     pickButton.addEventListener('click', () => {
         if (isRollingMode) {
-            nameModel.startRolling();
+            nameModel.startRolling();  // 滚动模式下开始滚动
         } else {
-            nameModel.pickRandomName();
+            nameModel.pickRandomName();  // 直接模式下直接选取
             updateNameDisplay();
         }
     });
 
+    // 模式切换按钮
     modeButton.addEventListener('click', () => {
         isRollingMode = !isRollingMode;
         updateModeButton();
     });
 
-    // 导入按钮点击事件
-    importButton.addEventListener('click', () => {
+    // 选择名单按钮点击事件 - 显示选择名单面板
+    selectButton.addEventListener('click', () => {
+        document.getElementById('selectPanel').style.display = 'block';
+    });
+
+    // 关闭选择名单面板
+    document.getElementById('closeSelectPanel').addEventListener('click', () => {
+        document.getElementById('selectPanel').style.display = 'none';
+    });
+
+    // 导入新名单按钮点击事件 - 显示导入新名单面板
+    document.getElementById('showImportPanel').addEventListener('click', () => {
         document.getElementById('importPanel').style.display = 'block';
-        // 显示当前选中组的名单
-        document.getElementById('nameInput').value = nameModel.groups[nameModel.currentGroup]?.join('\n') || '';
+        document.getElementById('selectPanel').style.display = 'none';
     });
 
-    // 确认导入按钮
-    document.getElementById('confirmImport').addEventListener('click', () => {
-        const names = document.getElementById('nameInput').value;
-        const groupName = document.getElementById('groupSelect').value;
-        if (names.trim()) {
-            nameModel.importNames(names, groupName);
-            document.getElementById('importPanel').style.display = 'none';
-            return true; // 确保操作完成
+    // 保存新名单
+    document.getElementById('saveImport').addEventListener('click', () => {
+        const groupName = document.getElementById('newGroupName').value.trim();
+        const names = document.getElementById('newNameList').value;
+        
+        if (groupName && names.trim()) {
+            if (nameModel.addGroup(groupName)) {
+                nameModel.importNames(names, groupName);
+                document.getElementById('importPanel').style.display = 'none';
+                document.getElementById('newGroupName').value = '';
+                document.getElementById('newNameList').value = '';
+            }
         }
-        return false;
     });
 
-    // 取消导入按钮
-    document.getElementById('cancelImport').addEventListener('click', () => {
+    // 关闭导入新名单面板
+    document.getElementById('closeImportPanel').addEventListener('click', () => {
         document.getElementById('importPanel').style.display = 'none';
+        document.getElementById('newGroupName').value = '';
+        document.getElementById('newNameList').value = '';
     });
 
-    // 新建组按钮
-    document.getElementById('addGroupBtn').addEventListener('click', () => {
-        const groupName = prompt('请输入新组名:');
-        if (groupName && nameModel.addGroup(groupName)) {
-            // 确保下拉菜单更新
-            const select = document.getElementById('groupSelect');
-            select.value = groupName;
-            document.getElementById('nameInput').value = ''; // 清空文本框
-        }
+    // 选择组并关闭面板
+    document.getElementById('confirmSelect').addEventListener('click', () => {
+        const groupName = document.getElementById('groupSelect').value;
+        nameModel.currentGroup = groupName;
+        nameModel.saveNames();
+        nameModel.pickRandomName();
+        updateNameDisplay();
+        document.getElementById('selectPanel').style.display = 'none';
     });
-
-    // 移除重复的updateGroupSelector函数
 
     // 尝试加载本地存储的名单
     if (!nameModel.loadNames()) {
@@ -196,19 +224,19 @@ function init() {
     // 组选择器变更事件
     document.getElementById('groupSelect').addEventListener('change', (e) => {
         nameModel.currentGroup = e.target.value;
-        nameModel.saveNames(); // 保存当前组选择
+        nameModel.saveNames();  // 保存当前组选择
         nameModel.pickRandomName();
         updateNameDisplay();
-        // 切换组时关闭导入面板并更新文本框内容
-        document.getElementById('importPanel').style.display = 'none';
-        document.getElementById('nameInput').value = nameModel.groups[nameModel.currentGroup]?.join('\n') || '';
+        document.getElementById('selectPanel').style.display = 'none'; // 选择后关闭面板
     });
 }
 
+// 更新显示当前名字
 function updateNameDisplay() {
     currentNameEl.textContent = nameModel.currentName || '点击抽取';
 }
 
+// 更新模式按钮显示
 function updateModeButton() {
     const icon = modeButton.querySelector('.button-icon');
     const text = modeButton.querySelector('.button-text');
@@ -217,5 +245,5 @@ function updateModeButton() {
     text.textContent = isRollingMode ? '滚动模式' : '直接模式';
 }
 
-// 启动应用
+// 当DOM加载完成后启动应用
 document.addEventListener('DOMContentLoaded', init);
