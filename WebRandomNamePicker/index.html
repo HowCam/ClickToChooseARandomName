@@ -3,89 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页版随机点名器</title>
+    <title>点名大师 - 极简随机点名器</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="name-display">
-            <div id="currentName">点击抽取</div>
-        </div>
-        
-        <div class="main-button">
-            <button id="pickButton">
-                <div class="button-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7.5 18c-.83 0-1.5-.67-1.5-1.5S6.67 15 7.5 15s1.5.67 1.5 1.5S8.33 18 7.5 18zm0-9C6.67 9 6 8.33 6 7.5S6.67 6 7.5 6 9 6.67 9 7.5 8.33 9 7.5 9zm4.5 4.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5 4.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm0-9c-.83 0-1.5-.67-1.5-1.5S15.67 6 16.5 6s1.5.67 1.5 1.5S17.33 9 16.5 9z"/>
-                    </svg>
-                </div>
-                <div class="button-text">抽取名字</div>
-            </button>
-        </div>
-        
-        <div class="control-buttons">
-            <button id="modeButton">
-                <div class="button-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
-                    </svg>
-                </div>
-                <div class="button-text">直接模式</div>
-            </button>
-            
-            <button id="selectButton">
-                <div class="button-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 12h2v5H7zm4-7h2v12h-2zm4 5h2v7h-2z"/>
-                    </svg>
-                </div>
-                <div class="button-text">选择名单</div>
-            </button>
+    <div class="app-container">
+        <!-- 极简头部 -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-users"></i>
+                <h1>点名大师</h1>
+            </div>
+            <div class="header-actions">
+                <button id="settingsToggle" class="icon-button" title="设置">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <button id="themeToggle" class="icon-button" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
 
-            <button id="switchGroupButton">
-                <div class="button-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
-                    </svg>
+        <!-- 极简主内容区 -->
+        <main class="main-content simplified">
+            <!-- 小组信息 -->
+            <div class="group-info-card">
+                <div class="group-info-header">
+                    <h3><i class="fas fa-layer-group"></i> 当前小组</h3>
+                    <span class="group-badge" id="memberCount">0 人</span>
                 </div>
-                <div class="button-text">切换小组</div>
-            </button>
-        </div>
-        
-        <!-- 选择名单面板 -->
-        <div class="panel" id="selectPanel">
-            <h3>选择名单</h3>
-            <div class="group-selector">
-                <select id="groupSelect">
-                    <option value="默认组">默认组</option>
-                </select>
+                <div class="group-name" id="currentGroupName">默认小组</div>
+                <div class="group-actions">
+                    <button id="quickImportBtn" class="btn-outline">
+                        <i class="fas fa-file-import"></i> 导入名单
+                    </button>
+                    <button id="quickSwitchBtn" class="btn-outline">
+                        <i class="fas fa-exchange-alt"></i> 切换小组
+                    </button>
+                </div>
             </div>
-            <div class="panel-actions">
-                <button id="showImportPanel" class="left-button">导入新名单</button>
-                <button id="closeSelectPanel">关闭</button>
+
+            <!-- 核心显示区域 -->
+            <div class="name-display-container">
+                <div class="display-header">
+                    <h2>点名结果</h2>
+                    <div class="mode-switch">
+                        <span class="mode-label">抽取模式:</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="directModeToggle">
+                            <label for="directModeToggle">
+                                <span></span>
+                                <span class="toggle-label toggle-animation">动画</span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span class="toggle-label toggle-direct">直接</span>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="name-display-card">
+                    <div id="nameDisplay" class="name-display">
+                        <div class="display-placeholder">
+                            <i class="fas fa-hand-pointer"></i>
+                            <p>准备就绪</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 主操作按钮 -->
+                <div class="action-buttons">
+                    <button id="pickButton" class="btn-primary btn-xl">
+                        <i class="fas fa-random"></i>
+                        <span>开始抽取</span>
+                    </button>
+                    <button id="quickPickBtn" class="btn-secondary">
+                        <i class="fas fa-bolt"></i>
+                        <span>快速点名</span>
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <!-- 导入新名单面板 -->
-        <div class="panel" id="importPanel">
-            <h3>导入新名单</h3>
-            <div class="input-group">
-                <label for="newGroupName">新组名称:</label>
-                <input type="text" id="newGroupName" placeholder="输入新组名">
+
+            <!-- 快捷统计 -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <i class="fas fa-history"></i>
+                    <div class="stat-info">
+                        <div class="stat-value" id="quickTotalPicks">0</div>
+                        <div class="stat-label">总次数</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-check"></i>
+                    <div class="stat-info">
+                        <div class="stat-value" id="quickUniquePicks">0</div>
+                        <div class="stat-label">已点</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-redo"></i>
+                    <div class="stat-info">
+                        <div class="stat-value" id="quickRemaining">0</div>
+                        <div class="stat-label">剩余</div>
+                    </div>
+                </div>
             </div>
-            <textarea id="newNameList" placeholder="请输入名单，每行一个名字"></textarea>
-            <div class="panel-actions">
-                <button id="saveImport" class="left-button">保存</button>
-                <button id="closeImportPanel">关闭</button>
+        </main>
+
+        <!-- 极简底部 -->
+        <footer class="simple-footer">
+            <p><i class="fas fa-code"></i> 点名大师 v2.1 | 极简模式</p>
+        </footer>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h3><i class="fas fa-cog"></i> 设置与功能</h3>
+                <button id="closeSettings" class="panel-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="settings-content">
+                <!-- 文件导入区 -->
+                <div class="settings-section">
+                    <h4><i class="fas fa-file-import"></i> 文件导入</h4>
+                    <div class="file-import-options">
+                        <div class="file-option">
+                            <label for="txtFileInput" class="file-label">
+                                <i class="fas fa-file-alt"></i>
+                                <span>TXT文件导入</span>
+                                <small>每行一个名字</small>
+                            </label>
+                            <input type="file" id="txtFileInput" accept=".txt" style="display: none;">
+                            <button id="browseTxtBtn" class="btn-outline btn-sm">
+                                <i class="fas fa-folder-open"></i> 选择文件
+                            </button>
+                        </div>
+                        <div class="file-hint">
+                            <p><strong>Excel文件支持：</strong>将Excel另存为CSV或TXT格式后导入</p>
+                            <ol>
+                                <li>在Excel中选择"文件" → "另存为"</li>
+                                <li>选择"CSV (逗号分隔)"或"文本文件(制表符分隔)"</li>
+                                <li>保存后使用TXT导入功能</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 小组管理区 -->
+                <div class="settings-section">
+                    <h4><i class="fas fa-users-cog"></i> 小组管理</h4>
+                    <div class="group-manage-area">
+                        <div class="group-list-preview">
+                            <h5>可用小组</h5>
+                            <div id="groupList" class="compact-group-list">
+                                <!-- 小组列表将通过JS动态生成 -->
+                            </div>
+                        </div>
+                        <div class="group-actions">
+                            <button id="createGroupBtn" class="btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> 新建小组
+                            </button>
+                            <button id="editGroupBtn" class="btn-outline btn-sm">
+                                <i class="fas fa-edit"></i> 编辑当前
+                            </button>
+                            <button id="deleteGroupBtn" class="btn-outline btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> 删除小组
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 历史记录区 -->
+                <div class="settings-section">
+                    <h4><i class="fas fa-history"></i> 历史记录</h4>
+                    <div class="history-preview">
+                        <div class="history-controls">
+                            <button id="viewHistoryBtn" class="btn-outline btn-sm">
+                                <i class="fas fa-list"></i> 查看全部
+                            </button>
+                            <button id="clearHistoryBtn" class="btn-outline btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> 清空历史
+                            </button>
+                        </div>
+                        <div id="historyPreview" class="history-preview-list">
+                            <!-- 最近记录预览 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设置选项 -->
+                <div class="settings-section">
+                    <h4><i class="fas fa-sliders-h"></i> 其他设置</h4>
+                    <div class="setting-options">
+                        <div class="setting-option">
+                            <label for="autoSaveToggle">
+                                <i class="fas fa-save"></i>
+                                <span>自动保存数据</span>
+                            </label>
+                            <div class="toggle-switch small">
+                                <input type="checkbox" id="autoSaveToggle" checked>
+                                <label for="autoSaveToggle"></label>
+                            </div>
+                        </div>
+                        <div class="setting-option">
+                            <label for="notifyToggle">
+                                <i class="fas fa-bell"></i>
+                                <span>完成通知</span>
+                            </label>
+                            <div class="toggle-switch small">
+                                <input type="checkbox" id="notifyToggle" checked>
+                                <label for="notifyToggle"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <footer class="footer">
-        <p>作者: HowCam 3604402972 (QQ)</p>
-        <p>© 2025 随机点名器 - 版权所有</p>
-    </footer>
 
+    <!-- 小组创建/编辑面板 -->
+    <div class="panel-overlay" id="groupEditOverlay">
+        <div class="panel-container">
+            <div class="panel-header">
+                <h3><i class="fas fa-edit"></i> 编辑小组</h3>
+                <button id="closeGroupEdit" class="panel-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="panel-content">
+                <div class="form-group">
+                    <label for="editGroupName"><i class="fas fa-tag"></i> 小组名称</label>
+                    <input type="text" id="editGroupName" placeholder="输入小组名称">
+                </div>
+                <div class="form-group">
+                    <label for="editGroupMembers"><i class="fas fa-user-plus"></i> 成员列表</label>
+                    <textarea id="editGroupMembers" placeholder="每行输入一个名字，或从文件导入"></textarea>
+                    <div class="textarea-actions">
+                        <button id="pasteNamesBtn" class="btn-outline btn-xs">
+                            <i class="fas fa-paste"></i> 粘贴
+                        </button>
+                        <button id="clearNamesBtn" class="btn-outline btn-xs">
+                            <i class="fas fa-eraser"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-actions">
+                    <button id="saveGroupBtn" class="btn-primary">
+                        <i class="fas fa-save"></i> 保存更改
+                    </button>
+                    <button id="cancelGroupEdit" class="btn-outline">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 历史记录面板 -->
+    <div class="panel-overlay" id="historyPanelOverlay">
+        <div class="panel-container">
+            <div class="panel-header">
+                <h3><i class="fas fa-history"></i> 抽取历史</h3>
+                <button id="closeHistoryPanel" class="panel-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="panel-content">
+                <div class="history-controls">
+                    <button id="exportHistoryBtn" class="btn-outline">
+                        <i class="fas fa-download"></i> 导出历史
+                    </button>
+                    <button id="clearAllHistoryBtn" class="btn-outline btn-danger">
+                        <i class="fas fa-trash"></i> 清空全部
+                    </button>
+                </div>
+                <div id="fullHistoryList" class="history-list-full">
+                    <!-- 完整历史记录将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知容器 -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- 添加xlsx读取库（可选） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

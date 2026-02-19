@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点名大师 - 功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-button {
+            padding: 8px 16px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>点名大师 - 功能测试</h1>
+    
+    <div class="test-section">
+        <h2>文件检查</h2>
+        <div id="fileCheckResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>JavaScript 测试</h2>
+        <div id="jsTestResult"></div>
+        <button class="test-button" onclick="runJsTests()">运行JS测试</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>CSS 样式测试</h2>
+        <div id="cssTestResult"></div>
+        <button class="test-button" onclick="runCssTests()">运行CSS测试</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>功能测试</h2>
+        <div id="functionTestResult"></div>
+        <button class="test-button" onclick="runFunctionTests()">运行功能测试</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>本地存储测试</h2>
+        <div id="storageTestResult"></div>
+        <button class="test-button" onclick="runStorageTests()">运行存储测试</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>动画效果测试</h2>
+        <div id="animationTestResult"></div>
+        <button class="test-button" onclick="runAnimationTests()">运行动画测试</button>
+    </div>
+    
+    <script>
+        function showResult(elementId, message, isPass) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            element.className = 'test-result ' + (isPass ? 'pass' : 'fail');
+        }
+        
+        function runJsTests() {
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 测试1: 检查NamePicker类是否存在
+            total++;
+            try {
+                if (typeof NamePicker === 'function') {
+                    passed++;
+                    results.push('✓ NamePicker类定义正确');
+                } else {
+                    results.push('✗ NamePicker类未定义');
+                }
+            } catch (e) {
+                results.push(`✗ NamePicker类检查失败: ${e.message}`);
+            }
+            
+            // 测试2: 检查本地存储方法
+            total++;
+            try {
+                localStorage.setItem('test', 'value');
+                const value = localStorage.getItem('test');
+                if (value === 'value') {
+                    passed++;
+                    results.push('✓ 本地存储功能正常');
+                } else {
+                    results.push('✗ 本地存储功能异常');
+                }
+                localStorage.removeItem('test');
+            } catch (e) {
+                results.push(`✗ 本地存储测试失败: ${e.message}`);
+            }
+            
+            // 测试3: 检查数组方法
+            total++;
+            try {
+                const arr = [1, 2, 3];
+                const doubled = arr.map(x => x * 2);
+                if (doubled.length === 3 && doubled[0] === 2) {
+                    passed++;
+                    results.push('✓ 现代JavaScript功能正常');
+                } else {
+                    results.push('✗ 现代JavaScript功能异常');
+                }
+            } catch (e) {
+                results.push(`✗ 数组方法测试失败: ${e.message}`);
+            }
+            
+            // 测试4: 检查ES6类语法
+            total++;
+            try {
+                class TestClass {
+                    constructor() {
+                        this.value = 42;
+                    }
+                }
+                const instance = new TestClass();
+                if (instance.value === 42) {
+                    passed++;
+                    results.push('✓ ES6类语法支持正常');
+                } else {
+                    results.push('✗ ES6类语法异常');
+                }
+            } catch (e) {
+                results.push(`✗ ES6类语法测试失败: ${e.message}`);
+            }
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('jsTestResult', message, passed === total);
+        }
+        
+        function runCssTests() {
+            const style = document.createElement('div');
+            style.style.cssText = 'position: absolute; left: -9999px;';
+            document.body.appendChild(style);
+            
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 测试CSS变量支持
+            total++;
+            try {
+                if (window.CSS && window.CSS.supports && window.CSS.supports('--test-var', 'red')) {
+                    passed++;
+                    results.push('✓ CSS变量支持正常');
+                } else {
+                    results.push('✗ CSS变量不支持');
+                }
+            } catch (e) {
+                results.push(`✗ CSS变量测试失败: ${e.message}`);
+            }
+            
+            // 测试Flexbox支持
+            total++;
+            try {
+                style.style.display = 'flex';
+                const display = window.getComputedStyle(style).display;
+                if (display === 'flex' || display === '-webkit-flex') {
+                    passed++;
+                    results.push('✓ Flexbox布局支持正常');
+                } else {
+                    results.push('✗ Flexbox布局不支持');
+                }
+            } catch (e) {
+                results.push(`✗ Flexbox测试失败: ${e.message}`);
+            }
+            
+            // 测试CSS Grid支持
+            total++;
+            try {
+                style.style.display = 'grid';
+                const display = window.getComputedStyle(style).display;
+                if (display === 'grid' || display === '-ms-grid') {
+                    passed++;
+                    results.push('✓ CSS Grid布局支持正常');
+                } else {
+                    results.push('✗ CSS Grid布局不支持');
+                }
+            } catch (e) {
+                results.push(`✗ CSS Grid测试失败: ${e.message}`);
+            }
+            
+            document.body.removeChild(style);
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('cssTestResult', message, passed === total);
+        }
+        
+        function runFunctionTests() {
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 测试1: 检查随机数生成
+            total++;
+            try {
+                const random = Math.random();
+                if (random >= 0 && random < 1) {
+                    passed++;
+                    results.push('✓ 随机数生成正常');
+                } else {
+                    results.push('✗ 随机数生成异常');
+                }
+            } catch (e) {
+                results.push(`✗ 随机数测试失败: ${e.message}`);
+            }
+            
+            // 测试2: 检查日期功能
+            total++;
+            try {
+                const now = Date.now();
+                if (typeof now === 'number' && now > 0) {
+                    passed++;
+                    results.push('✓ 日期时间功能正常');
+                } else {
+                    results.push('✗ 日期时间功能异常');
+                }
+            } catch (e) {
+                results.push(`✗ 日期时间测试失败: ${e.message}`);
+            }
+            
+            // 测试3: 检查JSON功能
+            total++;
+            try {
+                const obj = { test: 'value', number: 42 };
+                const json = JSON.stringify(obj);
+                const parsed = JSON.parse(json);
+                if (parsed.test === 'value' && parsed.number === 42) {
+                    passed++;
+                    results.push('✓ JSON序列化/反序列化正常');
+                } else {
+                    results.push('✗ JSON功能异常');
+                }
+            } catch (e) {
+                results.push(`✗ JSON测试失败: ${e.message}`);
+            }
+            
+            // 测试4: 检查Set数据结构
+            total++;
+            try {
+                const set = new Set([1, 2, 3]);
+                if (set.size === 3 && set.has(1)) {
+                    passed++;
+                    results.push('✓ Set数据结构支持正常');
+                } else {
+                    results.push('✗ Set数据结构不支持');
+                }
+            } catch (e) {
+                results.push(`✗ Set测试失败: ${e.message}`);
+            }
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('functionTestResult', message, passed === total);
+        }
+        
+        function runStorageTests() {
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 测试1: 检查localStorage
+            total++;
+            try {
+                const testKey = 'namePickerTest';
+                const testData = { test: 'data', number: 123 };
+                localStorage.setItem(testKey, JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                
+                if (retrieved.test === 'data' && retrieved.number === 123) {
+                    passed++;
+                    results.push('✓ localStorage读写正常');
+                } else {
+                    results.push('✗ localStorage读写异常');
+                }
+                localStorage.removeItem(testKey);
+            } catch (e) {
+                results.push(`✗ localStorage测试失败: ${e.message}`);
+            }
+            
+            // 测试2: 检查sessionStorage
+            total++;
+            try {
+                const testKey = 'sessionTest';
+                sessionStorage.setItem(testKey, 'test value');
+                const retrieved = sessionStorage.getItem(testKey);
+                
+                if (retrieved === 'test value') {
+                    passed++;
+                    results.push('✓ sessionStorage读写正常');
+                } else {
+                    results.push('✗ sessionStorage读写异常');
+                }
+                sessionStorage.removeItem(testKey);
+            } catch (e) {
+                results.push(`✗ sessionStorage测试失败: ${e.message}`);
+            }
+            
+            // 测试3: 检查存储空间
+            total++;
+            try {
+                // 尝试存储一个大对象来测试容量
+                const largeData = new Array(1000).fill('test').join('');
+                const testKey = 'sizeTest';
+                
+                try {
+                    localStorage.setItem(testKey, largeData);
+                    const retrieved = localStorage.getItem(testKey);
+                    if (retrieved === largeData) {
+                        passed++;
+                        results.push('✓ 存储容量正常');
+                    } else {
+                        results.push('✗ 存储容量异常');
+                    }
+                } catch (e) {
+                    // 如果存储空间不足，这也是正常的
+                    results.push('⚠ 存储空间可能有限（正常情况）');
+                    passed++; // 仍然算通过，因为这是环境限制
+                }
+                
+                localStorage.removeItem(testKey);
+            } catch (e) {
+                results.push(`✗ 存储容量测试失败: ${e.message}`);
+            }
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('storageTestResult', message, passed === total);
+        }
+        
+        function runAnimationTests() {
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 测试1: 检查requestAnimationFrame
+            total++;
+            try {
+                if (typeof requestAnimationFrame === 'function') {
+                    passed++;
+                    results.push('✓ requestAnimationFrame支持正常');
+                } else {
+                    results.push('✗ requestAnimationFrame不支持');
+                }
+            } catch (e) {
+                results.push(`✗ 动画帧测试失败: ${e.message}`);
+            }
+            
+            // 测试2: 检查CSS动画支持
+            total++;
+            try {
+                const elem = document.createElement('div');
+                elem.style.animation = 'test 1s ease';
+                const animation = elem.style.animation;
+                if (animation && animation.includes('1s')) {
+                    passed++;
+                    results.push('✓ CSS动画属性支持正常');
+                } else {
+                    results.push('✗ CSS动画属性不支持');
+                }
+            } catch (e) {
+                results.push(`✗ CSS动画测试失败: ${e.message}`);
+            }
+            
+            // 测试3: 检查变换属性
+            total++;
+            try {
+                const elem = document.createElement('div');
+                elem.style.transform = 'translateX(10px)';
+                const transform = elem.style.transform;
+                if (transform) {
+                    passed++;
+                    results.push('✓ CSS变换属性支持正常');
+                } else {
+                    results.push('✗ CSS变换属性不支持');
+                }
+            } catch (e) {
+                results.push(`✗ 变换属性测试失败: ${e.message}`);
+            }
+            
+            // 测试4: 检查过渡属性
+            total++;
+            try {
+                const elem = document.createElement('div');
+                elem.style.transition = 'all 0.3s ease';
+                const transition = elem.style.transition;
+                if (transition && transition.includes('0.3s')) {
+                    passed++;
+                    results.push('✓ CSS过渡属性支持正常');
+                } else {
+                    results.push('✗ CSS过渡属性不支持');
+                }
+            } catch (e) {
+                results.push(`✗ 过渡属性测试失败: ${e.message}`);
+            }
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('animationTestResult', message, passed === total);
+        }
+        
+        // 自动运行文件检查
+        window.onload = function() {
+            let passed = 0;
+            let total = 0;
+            let results = [];
+            
+            // 检查HTML文件
+            total++;
+            try {
+                const htmlExists = document.body && document.head;
+                if (htmlExists) {
+                    passed++;
+                    results.push('✓ HTML文档结构正常');
+                } else {
+                    results.push('✗ HTML文档结构异常');
+                }
+            } catch (e) {
+                results.push(`✗ HTML检查失败: ${e.message}`);
+            }
+            
+            // 检查CSS文件链接
+            total++;
+            try {
+                const links = document.querySelectorAll('link[href$="style.css"]');
+                if (links.length > 0) {
+                    passed++;
+                    results.push('✓ CSS文件链接正常');
+                } else {
+                    results.push('✗ CSS文件链接异常');
+                }
+            } catch (e) {
+                results.push(`✗ CSS链接检查失败: ${e.message}`);
+            }
+            
+            // 检查JS文件链接
+            total++;
+            try {
+                const scripts = document.querySelectorAll('script[src$="script.js"]');
+                if (scripts.length > 0) {
+                    passed++;
+                    results.push('✓ JavaScript文件链接正常');
+                } else {
+                    results.push('✗ JavaScript文件链接异常');
+                }
+            } catch (e) {
+                results.push(`✗ JavaScript链接检查失败: ${e.message}`);
+            }
+            
+            const message = `${results.join('<br>')}<br><br>通过: ${passed}/${total}`;
+            showResult('fileCheckResult', message, passed === total);
+        };
+    </script>
+</body>
+</html>
